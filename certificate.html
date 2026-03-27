@@ -1,0 +1,160 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CASTE/TRIBE CERTIFICATE</title>
+  <style>
+    body {
+      font-family: 'Times New Roman', serif;
+      padding: 20px;
+    //  background: #fff;
+	  
+    }
+    .certificate {
+      border: 2px solid black;
+      padding: 20px;
+      max-width: 700px;
+      margin: auto;
+      position: relative;
+    }
+    .header {
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .sub-header {
+      text-align: center;
+      font-style: italic;
+      margin-bottom: 20px;
+    }
+    .row {
+      display: flex;
+      justify-content: space-between;
+    }
+    .content {
+      margin-top: 20px;
+      font-size: 16px;
+      line-height: 1.8;
+    }
+    .bottom {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+    }
+    .photo {
+      width: 90px;
+      height: 110px;
+      object-fit: cover;
+      border: 1px solid #000;
+    }
+    .signature {
+      text-align: right;
+      font-weight: bold;
+	  margin-top:-100px;
+    }
+    .seal {
+      width: 80px;
+      position: absolute;
+      bottom: 40px;
+      right: 120px;
+    }
+  .logo-top{
+      width:30px;
+      margin-left:48%;
+      margin-top:-10px;
+      }	
+	
+	.foter1{
+      border: 2px solid black;
+     // padding: 20px;
+      max-width: 800px;
+      margin: auto;
+      position: relative;
+    }	
+	.foter2{
+    //  border: 2px solid black;
+     // padding: 20px;
+      max-width: 800px;
+      margin: auto;
+      position: relative;
+    }
+	
+  .logo{
+      width:115px; height:110px;
+      margin-left:-350px;
+      margin-top:80px;}
+	  
+  </style>
+</head>
+<body>
+  <div class="certificate">
+  <img class="logo-top" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Emblem_of_India.svg/120px-Emblem_of_India.svg.png" width="60" alt="Emblem">
+    <div class="header">
+      <span style="font-size:32px;">GOVERNMENT OF WEST BENGAL</span><br />
+      <span>OFFICE OF THE SUB-DIVISIONAL OFFICER</span><br />
+      <span>JALPAIGURI (SADAR) SUB-DIVISION</span><br /><br>
+      DIST-JALPAIGURI
+    </div>
+    <div class="sub-header">
+      <i>CASTE / TRIBE CERTIFICATE</i>
+    </div><br>
+
+    <div class="row">
+      <i><div>CERTIFICATE NO: <span id="certNo"></span></div></i>
+      <i><div>DATE: <span id="certDate"></span></div></i>
+    </div>
+
+    <div class="content" id="certContent" align=justify></div><br>
+
+    <div class="bottom">
+      <div>
+        <i><div>PLACE: JALPAIGURI(SADAR)</div><br>
+        <div>DATE: <span id="issueDate"></span></div><br></i>
+        <img id="photo" class="photo" src="" />
+      </div>
+      <div>
+        <img class="logo" src="seal.png" />
+        <div class="signature">
+		   <div style="color:blue; margin-right:75px;">@</div>
+          <I><div><span id="signature" style="color:blue; margin-right:55px;"></span></div>
+		  <span><div>- - - - - - - - - - - - - - - - - - - - - - -</div></span>
+          <div style="color:black; margin-right:20px;">Sub-Divisional Officer</div>
+          <div style="color:black; margin-right:17px;">JALPAIGURI(SADAR)</div>
+          <div style="color:black; margin-right:29px;">DIST-JALPAIGURI</div>
+          <div style="color:black; margin-right:15px;">STATE-WEST BENGAL</div></I>
+        </div>
+      </div>
+    </div><br>
+	<div class="foter1"></div>
+	<div class="foter2">kalirhat Dhupguri, Jalpaiguri</div>
+  </div>
+
+  <script>
+    const data = JSON.parse(localStorage.getItem("certificateData"));
+    if (data) {
+      document.getElementById("certNo").textContent = data.certNo;
+      document.getElementById("certDate").textContent = data.certDate;
+      document.getElementById("issueDate").textContent = data.issueDate;
+      document.getElementById("signature").textContent = data.signature;
+      document.getElementById("photo").src = data.photo;
+
+      document.getElementById("certContent").innerHTML = `
+        <i><pre>This is to certify that    <b>${data.fullName}</b>   daughter/son of    <b>${data.parentName}</b>   of
+village    <b>${data.village}</b>     P.O    <b>${data.po}</b>     P.S     <b>${data.ps}</b>     in the district
+<b>${data.district}</b>   of the state of  <b> ${data.state}</b>    belongs to the   <b>${data.caste}</b>   caste
+which is recognized as SCHEDULED CASTE under the Constitution ( Scheduled Caste) 
+Order 1950 and the Constitution ( Scheduled Tribes) Order 1950 as amended by the 
+Scheduled Caste and Scheduled Tribes List (Modification) order 1950, and the Sch
+eduled Caste and Scheduled Tribes Order (Amendment) Act, 1976.
+
+<b>${data.fullName} </b> and his/her family ordinarily reside(s) in the village  <b>${data.resVillage}</b>
+of the <b>${data.resDistrict}</b> district of the state of <b>${data.resState}</b></pre></i>.
+      `;
+    }
+  </script>
+</body>
+</html>

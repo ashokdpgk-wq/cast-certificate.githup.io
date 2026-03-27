@@ -1,0 +1,134 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Caste Certificate Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    h2 {
+      text-align: center;
+      text-decoration: underline;
+    }
+    form {
+      max-width: 800px;
+      margin: auto;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    input {
+      width: 100%;
+      padding: 6px;
+      margin: 5px 0;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    .row {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .row input {
+      flex: 1;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px;
+      width: 100%;
+      background: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <h2>CASTE/TRIBE CERTIFICATE FORM</h2>
+  <form id="casteForm">
+    <div class="row">
+      <div>
+        <label>Certificate No</label>
+        <input type="text" name="certNo" required />
+      </div>
+      <div>
+        <label>Date</label>
+        <input type="text" name="certDate" required />
+      </div>
+    </div>
+
+    <label>This is to Certify that</label>
+    <input type="text" name="fullName" placeholder="ASHOK  SARKAR" required />
+
+    <label>Daughter/Son of</label>
+    <input type="text" name="parentName" placeholder="BIBHUTI  SARKAR" required />
+
+    <label>Of village</label>
+    <input type="text" name="village" placeholder="KALIRHAT  A" required />
+
+    <label>Post Office (P.O)</label>
+    <input type="text" name="po" placeholder="KALIRHAT  A" required />
+
+    <label>Police Station (P.S)</label>
+    <input type="text" name="ps" placeholder="DHUPGURI" required />
+
+    <label>In the district of</label>
+    <input type="text" name="district" placeholder="JALPAIGURI" required />
+
+    <label>Of the state of</label>
+    <input type="text" name="state" placeholder="WEST  BENGAL" required />
+
+    <label>Belongs to the</label>
+    <input type="text" name="caste" placeholder="RAJBANSHI" required />
+
+    <label>Resident of village</label>
+    <input type="text" name="resVillage" placeholder="KALIRHAT  A" required />
+
+    <label>Of district</label>
+    <input type="text" name="resDistrict" placeholder="JALPAIGURI" required />
+
+    <label>Of state</label>
+    <input type="text" name="resState" placeholder="WEST  BENGAL" required />
+
+    <label>Issue Date (Bottom)</label>
+    <input type="text" name="issueDate" required />
+
+    <label>Signature Placeholder</label>
+    <input type="text" name="signature" placeholder="Signature" value="@. 01/01/2020" readonly />
+
+    <label>Upload Photo</label>
+    <input type="file" id="photo" accept="image/*" required />
+
+    <button type="submit">Generate Certificate</button>
+  </form>
+
+  <script>
+    document.getElementById("casteForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+      const entries = {};
+      formData.forEach((value, key) => {
+        entries[key] = value;
+      });
+
+      const reader = new FileReader();
+      reader.onload = function () {
+        entries.photo = reader.result;
+        localStorage.setItem("certificateData", JSON.stringify(entries));
+        window.location.href = "certificate.html";
+      };
+      const file = document.getElementById("photo").files[0];
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+    });
+  </script>
+</body>
+</html>
