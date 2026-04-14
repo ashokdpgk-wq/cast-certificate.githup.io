@@ -1,10 +1,11 @@
 const search = document.getElementById("search");
 const month = document.getElementById("month");
+const year = document.getElementById("year");
 const result = document.getElementById("result");
 
 let certificates = [];
 
-// 🔥 Load all data
+// 🔥 Load all JSON data
 async function loadData() {
     try {
         let res1 = await fetch("2024.json");
@@ -16,15 +17,17 @@ async function loadData() {
         let d3 = await res3.json();
 
         certificates = [...d1, ...d2, ...d3];
-    } catch {
+
+        console.log("Data Loaded:", certificates);
+    } catch (err) {
         result.innerHTML = "<p class='noData'>Data load error</p>";
     }
 }
 
 loadData();
 
-// 🔍 Search
-search.addEventListener("input", () => {
+// 🔍 Search function
+function runSearch() {
     let value = search.value.toLowerCase().trim();
 
     if (value === "") {
@@ -33,10 +36,8 @@ search.addEventListener("input", () => {
     }
 
     let filtered = certificates.filter(c =>
-        (
-            month.value === "" ||
-            c.month.toLowerCase() === month.value.toLowerCase()
-        ) &&
+        (year.value === "" || c.year === year.value) &&
+        (month.value === "" || c.month.toLowerCase() === month.value.toLowerCase()) &&
         (
             c.name.toLowerCase().startsWith(value) ||
             c.certNo.toLowerCase().startsWith(value)
@@ -44,7 +45,12 @@ search.addEventListener("input", () => {
     );
 
     display(filtered);
-});
+}
+
+// 🔹 Events
+search.addEventListener("input", runSearch);
+month.addEventListener("change", runSearch);
+year.addEventListener("change", runSearch);
 
 // 🔹 Display
 function display(data) {
