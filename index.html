@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Certificate Search</title>
+<title>Cast Certificate Search</title>
 
 <style>
 body {
@@ -12,11 +12,14 @@ body {
     background:#f4f6f9;
 }
 
+h2 { color:#333; }
+
 select, input {
     padding:10px;
     margin:8px;
-    width:250px;
+    width:260px;
     border-radius:6px;
+    border:1px solid #ccc;
 }
 
 #searchBox { display:none; }
@@ -31,9 +34,15 @@ select, input {
     background:white;
     padding:15px;
     margin:10px;
-    width:250px;
+    width:260px;
     border-radius:10px;
     box-shadow:0 3px 8px rgba(0,0,0,0.1);
+    text-align:left;
+}
+
+.noData {
+    color:red;
+    font-weight:bold;
 }
 </style>
 </head>
