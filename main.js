@@ -68,9 +68,14 @@ function display(data) {
     data.forEach(c => {
         result.innerHTML += `
         <div class="card">
-            <b>${c.name}</b><br>
-            ${c.certNo}<br>
-            ${c.caste}
-        </div>`;
+            <b>${c.name}</b> S/O ${c.father}<br><br>
+
+            <b>Address:</b> ${c.address}<br><br>
+
+            <b>Certificate No:</b> ${c.certNo}<br><br>
+
+            <b>Sub Cast:</b> ${c.subCast}
+        </div>
+        `;
     });
 }
