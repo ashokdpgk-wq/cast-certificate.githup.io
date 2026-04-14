@@ -9,28 +9,25 @@ body {
     font-family: Arial;
     text-align:center;
     padding:20px;
-    background: linear-gradient(120deg, #e0eafc, #cfdef3);
+    background: linear-gradient(120deg,#e0eafc,#cfdef3);
 }
 
 h2 {
-    color:#333;
     margin-bottom:20px;
 }
 
 select, input {
     padding:12px;
-    margin:10px;
-    width:260px;
+    margin:8px;
+    width:250px;
     border-radius:8px;
     border:1px solid #ccc;
-    font-size:16px;
 }
 
 #result {
     display:flex;
     flex-wrap:wrap;
     justify-content:center;
-    margin-top:20px;
 }
 
 .card {
@@ -41,11 +38,6 @@ select, input {
     border-radius:12px;
     box-shadow:0 4px 10px rgba(0,0,0,0.15);
     text-align:left;
-    transition:0.3s;
-}
-
-.card:hover {
-    transform:scale(1.05);
 }
 
 .noData {
@@ -58,6 +50,13 @@ select, input {
 <body>
 
 <h2>Cast Certificate Search</h2>
+
+<select id="year">
+    <option value="">All Years</option>
+    <option value="2024">2024</option>
+    <option value="2025">2025</option>
+    <option value="2026">2026</option>
+</select>
 
 <select id="month">
     <option value="">All Months</option>
