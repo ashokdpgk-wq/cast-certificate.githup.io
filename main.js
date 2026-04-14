@@ -5,27 +5,26 @@ const result = document.getElementById("result");
 
 let certificates = [];
 
-// 🔥 Year select → load JS file
+// 🔥 Year select → load file
 year.addEventListener("change", () => {
     if (!year.value) return;
 
     loadYearFile(year.value);
 });
 
-// 🔹 Load JS dynamically
+// 🔹 Dynamic JS load
 function loadYearFile(y) {
+
     // আগের script remove
     let old = document.getElementById("dataScript");
     if (old) old.remove();
 
-    // নতুন script create
     let script = document.createElement("script");
-    script.src = `data/${y}.js`;
+    script.src = `${y}.js`;   // ✅ root file
     script.id = "dataScript";
 
     script.onload = () => {
         certificates = window.yearData || [];
-        console.log("Loaded:", certificates);
         result.innerHTML = "";
         search.value = "";
     };
@@ -44,7 +43,10 @@ function runSearch() {
 
     let filtered = certificates.filter(c =>
         (month.value === "" || c.month === month.value) &&
-        c.name.toLowerCase().startsWith(value)
+        (
+            c.name.toLowerCase().startsWith(value) ||
+            c.certNo.toLowerCase().startsWith(value)
+        )
     );
 
     display(filtered);
@@ -54,7 +56,7 @@ function runSearch() {
 search.addEventListener("input", runSearch);
 month.addEventListener("change", runSearch);
 
-// Display
+// 🔹 Display
 function display(data) {
     result.innerHTML = "";
 
@@ -65,7 +67,7 @@ function display(data) {
 
     data.forEach(c => {
         result.innerHTML += `
-        <div>
+        <div class="card">
             <b>${c.name}</b><br>
             ${c.certNo}<br>
             ${c.caste}
