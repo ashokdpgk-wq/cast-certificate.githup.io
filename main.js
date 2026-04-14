@@ -6,43 +6,44 @@ const result = document.getElementById("result");
 
 let certificates = [];
 
-// Load JSON from ROOT (🔥 changed here)
+// Year change → load data
 year.addEventListener("change", loadData);
-month.addEventListener("change", filterData);
 
+// Month change → show search box only
+month.addEventListener("change", () => {
+    if (month.value) {
+        searchBox.style.display = "block";
+    } else {
+        searchBox.style.display = "none";
+        result.innerHTML = "";
+    }
+});
+
+// Load JSON
 function loadData() {
     if (!year.value) return;
 
-    fetch(`${year.value}.json`)   // 🔥 এখানে change
+    fetch(`${year.value}.json`)
     .then(res => res.json())
     .then(data => {
         certificates = data;
-        filterData();
+        result.innerHTML = ""; // reset
+        search.value = "";
     })
     .catch(() => {
-        result.innerHTML = "<p style='color:red'>Data load error</p>";
+        result.innerHTML = "<p class='noData'>Data load error</p>";
     });
 }
 
-function filterData() {
-    if (!month.value) {
+// 🔍 Live search
+search.addEventListener("input", () => {
+    let value = search.value.toLowerCase().trim();
+
+    // ❌ empty → hide সব
+    if (value === "") {
         result.innerHTML = "";
-        searchBox.style.display = "none";
         return;
     }
-
-    searchBox.style.display = "block";
-
-    let filtered = certificates.filter(c =>
-        c.month === month.value
-    );
-
-    display(filtered);
-}
-
-// Live search
-search.addEventListener("input", () => {
-    let value = search.value.toLowerCase();
 
     let filtered = certificates.filter(c =>
         c.month === month.value &&
@@ -53,12 +54,12 @@ search.addEventListener("input", () => {
     display(filtered);
 });
 
-// Display
+// Show result
 function display(data) {
     result.innerHTML = "";
 
     if (data.length === 0) {
-        result.innerHTML = "<p style='color:red'>No Certificate Found</p>";
+        result.innerHTML = "<p class='noData'>No Certificate Found</p>";
         return;
     }
 
