@@ -6,7 +6,7 @@ const result = document.getElementById("result");
 
 let certificates = [];
 
-// Load JSON dynamically
+// Load JSON
 year.addEventListener("change", loadData);
 month.addEventListener("change", filterData);
 
@@ -18,6 +18,9 @@ function loadData() {
     .then(data => {
         certificates = data;
         filterData();
+    })
+    .catch(() => {
+        result.innerHTML = "<p style='color:red'>Data load error</p>";
     });
 }
 
