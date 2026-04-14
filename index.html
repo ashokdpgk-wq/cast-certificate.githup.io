@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Certificate Search</title>
+
+<style>
+body {
+    font-family: Arial;
+    text-align:center;
+    padding:20px;
+    background:#f4f6f9;
+}
+
+select, input {
+    padding:10px;
+    margin:8px;
+    width:250px;
+    border-radius:6px;
+}
+
+#searchBox { display:none; }
+
+#result {
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+}
+
+.card {
+    background:white;
+    padding:15px;
+    margin:10px;
+    width:250px;
+    border-radius:10px;
+    box-shadow:0 3px 8px rgba(0,0,0,0.1);
+}
+</style>
+</head>
+
+<body>
+
+<h2>Cast Certificate Search</h2>
+
+<select id="year">
+    <option value="">Select Year</option>
+    <option>2024</option>
+    <option>2025</option>
+    <option>2026</option>
+</select>
+
+<select id="month">
+    <option value="">Select Month</option>
+    <option>January</option>
+    <option>February</option>
+    <option>March</option>
+</select>
+
+<div id="searchBox">
+    <input type="text" id="search" placeholder="Search Name / Certificate No">
+</div>
+
+<div id="result"></div>
+
+<script src="main.js"></script>
+
+</body>
+</html>
