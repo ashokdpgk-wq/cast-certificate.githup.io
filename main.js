@@ -1,28 +1,36 @@
-const month = document.getElementById("month");
 const searchBox = document.getElementById("searchBox");
 const search = document.getElementById("search");
+const month = document.getElementById("month");
 const result = document.getElementById("result");
 
 let certificates = [];
 
-// 🔥 Page load → সব data load + search box show
-window.onload = () => {
-    searchBox.style.display = "block"; // 🔥 সব সময় visible
+// 🔥 সব সময় search box show
+searchBox.style.display = "block";
 
-    Promise.all([
-        fetch("2024.json").then(res => res.json()),
-        fetch("2025.json").then(res => res.json()),
-        fetch("2026.json").then(res => res.json())
-    ])
-    .then(data => {
-        certificates = data.flat();
-    })
-    .catch(() => {
+// 🔥 সব data load (ALL YEAR)
+async function loadData() {
+    try {
+        let res1 = await fetch("2024.json");
+        let res2 = await fetch("2025.json");
+        let res3 = await fetch("2026.json");
+
+        let d1 = await res1.json();
+        let d2 = await res2.json();
+        let d3 = await res3.json();
+
+        certificates = [...d1, ...d2, ...d3];
+
+        console.log("Loaded:", certificates); // 🔍 check
+    } catch (err) {
         result.innerHTML = "<p style='color:red'>Data load error</p>";
-    });
-};
+    }
+}
 
-// 🔍 Search (All Year + Optional Month)
+// 🔥 page load হলে call
+loadData();
+
+// 🔍 Search
 search.addEventListener("input", () => {
     let value = search.value.toLowerCase().trim();
 
@@ -32,10 +40,7 @@ search.addEventListener("input", () => {
     }
 
     let filtered = certificates.filter(c =>
-        // Month optional
         (month.value === "" || c.month === month.value) &&
-        
-        // Search match
         (
             c.name.toLowerCase().startsWith(value) ||
             c.certNo.toLowerCase().startsWith(value)
