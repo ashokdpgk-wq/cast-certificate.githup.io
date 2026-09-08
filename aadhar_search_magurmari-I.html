@@ -251,7 +251,7 @@ Search Result
 
 <input type="file"
 id="restoreFile"
-accept=".json"
+accept=".json,.js"
 hidden>
 
 </div>
@@ -293,87 +293,22 @@ Save Customer
 No Record Found
 </div>
   
- <script>
+ <script src="aadhaar_backup_magurmari_I.js"></script>
+<script>
 
-let data = JSON.parse(localStorage.getItem("aadhaarData")) || [
+let data;
 
-     {
-    "name": "Ashok Sarkar",
-    "relationType": "Father",
-    "relationName": "BIBHUTI SARKAR",
-    "raw": "792365987630",
-    "format": "7923-6598-7630"
-  },
-  {
-    "name": "JAYDEB MAHANTA",
-    "relationType": "Father",
-    "relationName": "PRADEEP MAHANTA",
-    "raw": "373074309679",
-    "format": "3730-7430-9679"
-  },
-  {
-    "name": "BISHNU ROY",
-    "relationType": "Father",
-    "relationName": "PRAFULLA ROY",
-    "raw": "311054732799",
-    "format": "3110-5473-2799"
-  },
-  {
-    "name": "SAMIR CHAKRABORTY",
-    "relationType": "Father",
-    "relationName": "SADHAN CHAKRABORTY",
-    "raw": "311054732799",
-    "format": "5056-4450-8277"
-  },
-  {
-    "name": "ABHIJIT ROY",
-    "relationType": "Father",
-    "relationName": "ASHIRAM ROY",
-    "raw": "274150647542",
-    "format": "2741-5064-7542"
-  },
-  {
-    "name": "ABHIJIT ROY",
-    "relationType": "Father",
-    "relationName": "MANIK ROY",
-    "raw": "800703262156",
-    "format": "8007-0326-2156"
-  },
-  {
-    "name": "AHALLYA ROY",
-    "relationType": "Father",
-    "relationName": "SHAMBHU ROY",
-    "raw": "262832145380",
-    "format": "2628-3214-5380"
-  },
-  {
-    "name": "ALAKA ROY",
-    "relationType": "Husband",
-    "relationName": "NIRENDRA ROY",
-    "raw": "410559645614",
-    "format": "4105-5964-5614"
-  },
-  {
-    "name": "ANITA ROY",
-    "relationType": "Father",
-    "relationName": "BHABANI ROY",
-    "raw": "836035493464",
-    "format": "8360-3549-3464"
-  },
-  {
-    "name": "ASALATA MAJUMDAR",
-    "relationType": "Father",
-    "relationName": "AKHAY MAJUMD",
-    "raw": "548083128433",
-    "format": "5480-8312-8433"
-  },
-  {
-    "name": "BAPPI ROY",
-    "relationType": "Father",
-    "relationName": "KRISHNA PADA ROY",
-    "raw": "301418471150",
-    "format": "3014-1847-1150"
-  },
+/* Load saved data first; only use built-in data when nothing has ever been saved */
+try {
+    const saved = localStorage.getItem("aadhaarData");
+    if (saved !== null) {
+        data = JSON.parse(saved);
+    } else if (Array.isArray(window.aadhaarData)) {
+        data = window.aadhaarData;
+        localStorage.setItem("aadhaarData", JSON.stringify(data));
+    } else {
+        data = [
+
   {
     "name": "BHARATIRANI SARKAR",
     "relationType": "Husband",
@@ -547,7 +482,11 @@ let data = JSON.parse(localStorage.getItem("aadhaarData")) || [
 
 
 
-];
+        ];
+    }
+} catch(e) {
+    data = Array.isArray(window.aadhaarData) ? window.aadhaarData : [];
+}
 
 const searchInput=document.getElementById("searchInput");
 const result=document.getElementById("result");
@@ -754,17 +693,17 @@ backupBtn.addEventListener("click", function(){
         return;
     }
 
-    const jsonData = JSON.stringify(data, null, 2);
+    const jsData = `window.aadhaarData = ${JSON.stringify(data, null, 2)};\n`;
 
-    const blob = new Blob([jsonData], {
-        type: "application/json"
+    const blob = new Blob([jsData], {
+        type: "application/javascript"
     });
 
     const url = window.URL.createObjectURL(blob);
 
     const a = document.createElement("a");
     a.href = url;
-    a.download = "aadhaar_backup.json";
+    a.download = "aadhaar_backup.js";
 
     document.body.appendChild(a);
     a.click();
@@ -796,7 +735,16 @@ restoreFile.addEventListener("change", function (e) {
 
         try {
 
-            const backupData = JSON.parse(reader.result);
+            let backupData;
+            const text = reader.result.trim();
+
+            if (file.name.toLowerCase().endsWith(".js")) {
+                const match = text.match(/(?:window\.)?aadhaarData\s*=\s*([\s\S]*?)\s*;?\s*$/);
+                if (!match) throw new Error("Invalid JS backup");
+                backupData = JSON.parse(match[1].replace(/;\s*$/, ""));
+            } else {
+                backupData = JSON.parse(text);
+            }
 
             if (!Array.isArray(backupData)) {
                 alert("Invalid Backup File");
@@ -821,7 +769,7 @@ restoreFile.addEventListener("change", function (e) {
 
         } catch (err) {
 
-            alert("Invalid JSON File");
+            alert("Invalid JSON or JS Backup File");
 
         }
 
