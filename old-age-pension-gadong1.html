@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>OLD AGE PENSION SEARCH - GADONG - I</title>
+<style>
+*{box-sizing:border-box;font-family:Arial,sans-serif}
+body{margin:0;background:#f1f5f9;color:#172033}
+.header{background:#0f766e;color:white;padding:18px;text-align:center}
+.wrap{max-width:1100px;margin:auto;padding:15px}
+.card{background:white;border-radius:14px;padding:15px;box-shadow:0 4px 18px rgba(0,0,0,.08)}
+.search{width:100%;padding:13px;border:1px solid #cbd5e1;border-radius:10px;font-size:16px;outline:none}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
+.stat{flex:1;min-width:150px;background:#e2e8f0;border-radius:10px;padding:12px;text-align:center}
+.stat b{display:block;font-size:24px}
+.table-wrap{overflow:auto;margin-top:12px}
+table{width:100%;border-collapse:collapse;min-width:850px}
+th,td{padding:10px;border-bottom:1px solid #e2e8f0;text-align:left}
+th{background:#f8fafc}
+.empty{padding:30px;text-align:center;color:#64748b}
+.back{display:inline-block;margin-top:15px;padding:11px 16px;border:0;border-radius:9px;background:#334155;color:white;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="header">
+  <h2>👴 OLD AGE PENSION SEARCH</h2>
+  <div>GADONG - I</div>
+</div>
+<div class="wrap">
+  <div class="card">
+    <input id="searchBox" class="search"
+      placeholder="Search Name / Pension ID / Aadhaar / Mobile / Father Name"
+      oninput="searchPension()">
+    <div class="stats">
+      <div class="stat">TOTAL RECORD<b id="total">0</b></div>
+      <div class="stat">SEARCH RESULT<b id="found">0</b></div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Pension ID</th><th>Name</th><th>Father / Husband</th>
+            <th>Aadhaar</th><th>Mobile</th><th>DOB</th><th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="result"></tbody>
+      </table>
+    </div>
+    <a class="back" href="Panchayat-minati_crakroborti-OLD_AGE_PENSION.html">⬅ Back to Panchayat System</a>
+  </div>
+</div>
+<script>
+const STORAGE_KEY = "oldAgePensionData_gadong1";
+let data = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+
+function esc(v) {
+  return String(v ?? "").replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+}
+
+function searchPension() {
+  const q = document.getElementById("searchBox").value.trim().toLowerCase();
+  const rows = data.filter(p => {
+    const hay = [
+      p.pensionId, p.name, p.father, p.husband, p.aadhaar,
+      p.mobile, p.dob, p.status
+    ].join(" ").toLowerCase();
+    return hay.includes(q);
+  });
+  document.getElementById("found").textContent = rows.length;
+  document.getElementById("result").innerHTML = rows.length ? rows.map(p => `
+    <tr>
+      <td>${esc(p.pensionId)}</td>
+      <td>${esc(p.name)}</td>
+      <td>${esc(p.father || p.husband)}</td>
+      <td>${esc(p.aadhaar)}</td>
+      <td>${esc(p.mobile)}</td>
+      <td>${esc(p.dob)}</td>
+      <td>${esc(p.status)}</td>
+    </tr>
+  `).join("") : `<tr><td colspan="7" class="empty">No record found</td></tr>`;
+}
+
+function load() {
+  document.getElementById("total").textContent = data.length;
+  searchPension();
+}
+load();
+</script>
+</body>
+</html>
