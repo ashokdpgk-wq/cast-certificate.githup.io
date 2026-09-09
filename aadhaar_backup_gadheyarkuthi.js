@@ -1,27 +1,6 @@
 window.aadhaarData = [
 
   {
-    "name": "BIMAL CHANDRA ROY",
-    "relationType": "Father",
-    "relationName": "",
-    "raw": "286608992583",
-    "format": "2866-0899-2583"
-  },
-  {
-    "name": "BIMLABALA ROY",
-    "relationType": "Husband",
-    "relationName": "",
-    "raw": "229115130277",
-    "format": "2291-1513-0277"
-  },
-  {
-    "name": "PUSHPITA ROY",
-    "relationType": "Father",
-    "relationName": "JAGANANDA ROY",
-    "raw": "281722681485",
-    "format": "2817-2268-1485"
-  },
-  {
     "name": "CHITRA MAHANTA",
     "relationType": "Husband",
     "relationName": "PRADIP MAHANTA",
