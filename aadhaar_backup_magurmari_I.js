@@ -34,6 +34,13 @@ window.aadhaarData = [
     "raw": "274150647542",
     "format": "2741-5064-7542"
   },
+   {
+    "name": "JALANSWARI ROY",
+    "relationType": "Husband",
+    "relationName": "BHOLA ROY",
+    "raw": "712370415835",
+    "format": "7123-7041-5835"
+  }, 
   {
     "name": "ABHIJIT ROY",
     "relationType": "Father",
