@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aadhaar Card Search System</title>
-
-<style>
+<title>Aadhaar Card Search System</title><style>
 
 *{
 margin:0;
@@ -194,6 +191,7 @@ text-align:left;
 }
 
 }
+
 .form select{
 width:100%;
 padding:14px;
@@ -203,45 +201,22 @@ border-radius:10px;
 font-size:16px;
 background:#fff;
 }
-</style>
 
-</head>
-
-<body>
-
-<div class="container">
-
-<div class="header">
+</style></head><body><div class="container"><div class="header">
 <h1>AADHAAR CARD SEARCH SYSTEM</h1>
 <p>Search • Add • Backup • Restore</p>
-</div>
-
-<div class="searchBox">
-
-<input
+</div><div class="searchBox"><input
 type="text"
 id="searchInput"
 placeholder="Search Name or Aadhaar Number">
 
-<div class="counter">
-
-<div>
+<div class="counter"><div>
 Total Record
 <span id="totalCount">0</span>
-</div>
-
-<div>
+</div><div>
 Search Result
 <span id="searchCount">0</span>
-</div>
-
-</div>
-
-</div>
-
-<div class="buttons">
-
-<button id="addBtn">Add Customer</button>
+</div></div></div><div class="buttons"><button id="addBtn">Add Customer</button>
 
 <button id="backupBtn">Backup</button>
 
@@ -254,11 +229,7 @@ id="restoreFile"
 accept=".json,.js"
 hidden>
 
-</div>
-
-<div class="form" id="form">
-
-<input
+</div><div class="form" id="form"><input
 type="text"
 id="customerName"
 placeholder="Customer Name">
@@ -274,218 +245,57 @@ placeholder="12 Digit Aadhaar Number">
     <option value="Mother">Mother</option>
     <option value="Husband">Husband</option>
     <option value="C/O">C/O</option>
-</select>
-
-<input
+</select><input
 type="text"
 id="relationName"
 placeholder="Relation Name">
-    
+
 <button id="saveBtn">
 Save Customer
-</button>
-
-</div>
-
-<div id="result"></div>
-
-<div id="noRecord">
+</button></div><div id="result"></div><div id="noRecord">
 No Record Found
-</div>
-  
- <script src="aadhaar_backup_magurmari_I.js"></script>
-<script>
+</div><script src="aadhaar_backup_magurmari_I.js"></script><script>
 
 let data;
 
-/* Load saved data first; only use built-in data when nothing has ever been saved */
-try {
-    const saved = localStorage.getItem("aadhaarData");
-    if (saved !== null) {
-        data = JSON.parse(saved);
-    } else if (Array.isArray(window.aadhaarData)) {
-        data = window.aadhaarData;
-        localStorage.setItem("aadhaarData", JSON.stringify(data));
-    } else {
-        data = [
+/*
+====================================================
+NO LOCAL STORAGE
+====================================================
 
-  {
-    "name": "BHARATIRANI SARKAR",
-    "relationType": "Husband",
-    "relationName": "MRINAL KANTI SARKAR",
-    "raw": "806879093219",
-    "format": "8068-7909-3219"
-  },
-  {
-    "name": "AMAL KR ROY",
-    "relationType": "Father",
-    "relationName": "JAGMOHAN ROY",
-    "raw": "590655738413",
-    "format": "5906-5573-8413"
-  },
-  {
-    "name": "SUCHITRA SARKAR",
-    "relationType": "Husband",
-    "relationName": "BIBHUTI SARKAR",
-    "raw": "943801812512",
-    "format": "9438-0181-2512"
-  },
-  {
-    "name": "NILIMA SARKAR MODAK",
-    "relationType": "Husband",
-    "relationName": "KHOKAN SARKAR",
-    "raw": "690924934669",
-    "format": "6909-2493-4669"
-  },
-  {
-    "name": "SADHANA ROY",
-    "relationType": "Husband",
-    "relationName": "SANTOSH KR ROY",
-    "raw": "974789357216",
-    "format": "9747-8935-7216"
-  },
-  {
-    "name": "BIBEK ROY",
-    "relationType": "Father",
-    "relationName": "SANTOSH KR ROY",
-    "raw": "958431240224",
-    "format": "9584-3124-0224"
-  },
-  {
-    "name": "JAY ROY",
-    "relationType": "Father",
-    "relationName": "SANTOSH KR ROY",
-    "raw": "428695525245",
-    "format": "4286-9552-5245"
-  },
-  {
-    "name": "SANTOSH KUMAR ROY",
-    "relationType": "Father",
-    "relationName": "NARENDRA NATH ROY",
-    "raw": "760923200335",
-    "format": "7609-2320-0335"
-  },
-  {
-    "name": "RAJDIPTA ROY",
-    "relationType": "Father",
-    "relationName": "APU ROY",
-    "raw": "592115244195",
-    "format": "5921-1524-4195"
-  },
-  {
-    "name": "PRATIMA ROY",
-    "relationType": "Husband",
-    "relationName": "APU ROY",
-    "raw": "745144066409",
-    "format": "7451-4406-6409"
-  },
-  {
-    "name": "SANJAY ROU",
-    "relationType": "Father",
-    "relationName": "NARESH ROY",
-    "raw": "907438225834",
-    "format": "9074-3822-5834"
-  },
-  {
-    "name": "ATUL CHANDRA ROY",
-    "relationType": "Father",
-    "relationName": "NARENDRA NATH ROY",
-    "raw": "566326696121",
-    "format": "5663-2669-6121"
-  },
-  {
-    "name": "ALOK ROY",
-    "relationType": "Father",
-    "relationName": "ATUL CHANDRA ROY",
-    "raw": "507414403144",
-    "format": "5074-1440-3144"
-  },
-  {
-    "name": "SANGITA MAJUMDER RAHA",
-    "relationType": "C/O",
-    "relationName": "SAJAL RAHA",
-    "raw": "804084275231",
-    "format": "8040-8427-5231"
-  },
-  {
-    "name": "MADHAB SARKAR",
-    "relationType": "Father",
-    "relationName": "MANINDRA SARKAR",
-    "raw": "512879416618",
-    "format": "5128-7941-6618"
-  },
-  {
-    "name": "ASIT SARKAR",
-    "relationType": "Father",
-    "relationName": "MADHAB SARKAR",
-    "raw": "735306255352",
-    "format": "7353-0625-5352"
-  },
-  {
-    "name": "GITA MONDAL SARKAR",
-    "relationType": "C/O",
-    "relationName": "",
-    "raw": "200737481325",
-    "format": "2007-3748-1325"
-  },
-  {
-    "name": "NANIGOPAL KIRTONIYA",
-    "relationType": "Father",
-    "relationName": "KALICHARAN KIRTONIYA",
-    "raw": "658800864310",
-    "format": "6588-0086-4310"
-  },
-  {
-    "name": "MAMATA KIRTONIYA",
-    "relationType": "Husband",
-    "relationName": "NANIGOPAL KIRTONIYA",
-    "raw": "365543483450",
-    "format": "3655-4348-3450"
-  },
-  {
-    "name": "SHANTO KIRTONIYA",
-    "relationType": "Father",
-    "relationName": "NANIGOPAL KIRTONIYA",
-    "raw": "851477200377",
-    "format": "8514-7720-0377"
-  },
-  {
-    "name": "BISWAJIT KIRTONIA",
-    "relationType": "Father",
-    "relationName": "NANIGOPAL KIRTONIA",
-    "raw": "281016568651",
-    "format": "2810-1656-8651"
-  },
-  {
-    "name": "SABITA ROY",
-    "relationType": "Husband",
-    "relationName": "BISWAJIT KIRTONIA",
-    "raw": "724575243786",
-    "format": "7245-7524-3786"
-  },
-  {
-    "name": "JYOTSNA ROY",
-    "relationType": "Husband",
-    "relationName": "DHIRENDRA NATH ROY",
-    "raw": "203916859604",
-    "format": "2039-1685-9604"
-  },
-  {
-    "name": "DEBBRATA ROY",
-    "relationType": "Father",
-    "relationName": "DHIRENDRA NATH ROY",
-    "raw": "848772006383",
-    "format": "8487-7200-6383"
-  }
+Data is loaded only from:
+1. window.aadhaarData from the JS backup file
+2. Built-in data below
 
+Nothing is read from or written to localStorage.
+*/
 
+if (Array.isArray(window.aadhaarData)) {
 
+    data = window.aadhaarData;
 
+} else {
 
-        ];
-    }
-} catch(e) {
-    data = Array.isArray(window.aadhaarData) ? window.aadhaarData : [];
+    data = [
+
+        {
+            "name": "JYOTSNA ROY",
+            "relationType": "Husband",
+            "relationName": "DHIRENDRA NATH ROY",
+            "raw": "203916859604",
+            "format": "2039-1685-9604"
+        },
+
+        {
+            "name": "DEBBRATA ROY",
+            "relationType": "Father",
+            "relationName": "DHIRENDRA NATH ROY",
+            "raw": "848772006383",
+            "format": "8487-7200-6383"
+        }
+
+    ];
+
 }
 
 const searchInput=document.getElementById("searchInput");
@@ -504,15 +314,6 @@ form.style.display=="block"?
 "none":"block";
 
 };
-
-function saveStorage(){
-
-localStorage.setItem(
-"aadhaarData",
-JSON.stringify(data)
-);
-
-}
 
 function updateTotal(){
 
@@ -664,25 +465,30 @@ saveBtn.addEventListener("click", function(){
     }
 
     data.push({
-    name:name,
-    relationType:relationType.value,
-    relationName:relationName.value.trim(),
-    raw:raw,
-    format:formatAadhaar(raw)
-});
+        name:name,
+        relationType:relationType.value,
+        relationName:relationName.value.trim(),
+        raw:raw,
+        format:formatAadhaar(raw)
+    });
 
-    saveStorage();
+    /*
+    NO localStorage save here.
+    Data exists only in memory.
+    */
+
     updateTotal();
 
     customerName.value="";
     aadhaarInput.value="";
+    relationName.value="";
     form.style.display="none";
 
     alert("Customer Added Successfully");
 
 });
-    
-  /* ===== Backup Download ===== */
+
+/* ===== Backup Download ===== */
 
 const backupBtn = document.getElementById("backupBtn");
 
@@ -712,8 +518,8 @@ backupBtn.addEventListener("click", function(){
     window.URL.revokeObjectURL(url);
 
 });
-    
- /* ===== Restore Backup ===== */
+
+/* ===== Restore Backup ===== */
 
 const restoreBtn = document.getElementById("restoreBtn");
 const restoreFile = document.getElementById("restoreFile");
@@ -739,11 +545,21 @@ restoreFile.addEventListener("change", function (e) {
             const text = reader.result.trim();
 
             if (file.name.toLowerCase().endsWith(".js")) {
-                const match = text.match(/(?:window\.)?aadhaarData\s*=\s*([\s\S]*?)\s*;?\s*$/);
+
+                const match = text.match(
+                    /(?:window\.)?aadhaarData\s*=\s*([\s\S]*?)\s*;?\s*$/
+                );
+
                 if (!match) throw new Error("Invalid JS backup");
-                backupData = JSON.parse(match[1].replace(/;\s*$/, ""));
+
+                backupData = JSON.parse(
+                    match[1].replace(/;\s*$/, "")
+                );
+
             } else {
+
                 backupData = JSON.parse(text);
+
             }
 
             if (!Array.isArray(backupData)) {
@@ -751,12 +567,12 @@ restoreFile.addEventListener("change", function (e) {
                 return;
             }
 
-            data = backupData;
+            /*
+            Restore only into RAM.
+            Nothing is saved to localStorage.
+            */
 
-            localStorage.setItem(
-                "aadhaarData",
-                JSON.stringify(data)
-            );
+            data = backupData;
 
             updateTotal();
 
@@ -778,7 +594,7 @@ restoreFile.addEventListener("change", function (e) {
     reader.readAsText(file);
 
 });
-    
+
 /* ===== Delete All ===== */
 
 const deleteBtn = document.getElementById("deleteBtn");
@@ -792,10 +608,10 @@ deleteBtn.addEventListener("click", function () {
     // Empty Array
     data.length = 0;
 
-    // Remove LocalStorage
-    localStorage.removeItem("aadhaarData");
+    /*
+    No localStorage operation.
+    */
 
-    // Clear UI
     result.innerHTML = "";
     searchInput.value = "";
     searchCount.textContent = "0";
@@ -805,7 +621,6 @@ deleteBtn.addEventListener("click", function () {
     alert("All Customer Deleted Successfully");
 
 });
-</script>
 
- </body>
-</html>   
+</script></body>
+</html>
